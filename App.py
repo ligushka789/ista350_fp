@@ -1,67 +1,41 @@
 from PIL import Image
 import streamlit as st
-from streamlit_navigation_bar import st_navbar
-from Pages import Datasets
-from Pages import Introduction
-from Pages import GDP
-from Pages import Movies
-from Pages import Survey
-import os
-import pandas as pd
-import numpy as np
+from Pages import Datasets, Introduction, GDP, Movies, Survey
 
+# --- базовые настройки ---
 image = Image.open('img/logo-browser.png')
-st.set_page_config(initial_sidebar_state="collapsed", page_icon=image, page_title="Data analysis in streamlit")
+st.set_page_config(
+    page_title="Data analysis in Streamlit",
+    page_icon=image,
+    layout="wide"
+)
 
-logo_path = os.path.join(os.path.dirname(__file__), "img", "logo-home.svg")
-pages = [" ",'Introduction','Datasets', 'GDP', 'Movies','Survey']
-pages = ['Introduction', 'Datasets', 'GDP', 'Movies','Survey']
+NAV_PAGES = ["Introduction", "Datasets", "GDP", "Movies", "Survey"]
+
+# текущая страница
+if "current_page" not in st.session_state:
+    st.session_state.current_page = "Introduction"
 
 
-styles = {
-    "nav": {
-        "background-color": "transparent",
-    },
-    "div": {
-        "max-width": "32rem",
-    },
-    "span": {
-        "color": "#4CAF50",
-        "font-family": "Tahoma, sans-serif",
-        "margin": "0, 0.125rem",
-        "padding": "0.4375rem 0.625rem",
-        "border-left" : "1px solid #fff",
-        "border-top" : "1px solid #fff",
-        "border-right": "1px solid #848484",
-        "border-bottom": "1px solid #848484",
-        "background-color": "transparent",
-        "padding": "3px 15px 3px 15px"
-    },
-    "active": {
-        "border-right" : "1px solid #fff",
-        "border-bottom": "1px solid #fff",
-        "border-left": "1px solid #848484",
-        "border-top": "1px solid #848484",
-    },
-    "hover": {
-        "background-color": "transparent",
-    },
-    "img": {
-        "position": "absolute",
-        "left": "-20px",
-        "font-size":"15px",
-        "top":"4px",
-        "width":"100px",
-        "height":"40px",
-    },
-}
+# ---------- ГОРИЗОНТАЛЬНЫЙ НАВБАР С ЛОГО СЛЕВА ----------
+col_logo, col_buttons = st.columns([1, 8])
 
-options = {
-    "show_menu":False,
-    "show_sidebar":True,
-}
+# Логотип слева
+with col_logo:
+    st.image("img/logo-home.svg", width=90)
 
-page = st_navbar(pages, styles=styles,logo_path=logo_path,options=options )
+# Кнопки справа
+with col_buttons:
+    cols = st.columns(len(NAV_PAGES))
+    for i, page_name in enumerate(NAV_PAGES):
+        if cols[i].button(page_name, key=f"nav_{page_name}", use_container_width=True):
+            st.session_state.current_page = page_name
+
+st.write("---")
+
+
+# ---------- Роутинг страниц ----------
+page = st.session_state.current_page
 
 if page == 'Introduction':
     Introduction.Introduction().app()
@@ -73,7 +47,3 @@ elif page == 'Movies':
     Movies.Movies().app()
 elif page == 'Survey':
     Survey.Survey().app()
-else:
-    Introduction.Introduction().app()
-
-
