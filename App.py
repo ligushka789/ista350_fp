@@ -1,6 +1,6 @@
 from PIL import Image
 import streamlit as st
-from Pages import Datasets, Introduction, GDP, Movies, Survey
+from Pages import Datasets, Introduction, Life_expectancy, Ecology, Releases
 
 # --- базовые настройки ---
 image = Image.open('img/logo-browser.png')
@@ -10,7 +10,7 @@ st.set_page_config(
     layout="wide"
 )
 
-NAV_PAGES = ["Introduction", "Datasets", "GDP", "Movies", "Survey"]
+NAV_PAGES = ["Introduction", "Datasets", "Life_expectancy", "Ecology", "Releases"]
 
 # текущая страница
 if "current_page" not in st.session_state:
@@ -41,9 +41,9 @@ if page == 'Introduction':
     Introduction.Introduction().app()
 elif page == 'Datasets':
     Datasets.Datasets().app()
-elif page == 'GDP':
-    GDP.GDP().app()
-elif page == 'Movies':
-    Movies.Movies().app()
-elif page == 'Survey':
-    Survey.Survey().app()
+elif page == 'Life_expectancy':
+    Life_expectancy.Life_expectancy().app()
+elif page == 'Ecology':
+    Ecology.Ecology().app()
+elif page == 'Releases':
+    Releases.Releases().app()

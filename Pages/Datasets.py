@@ -18,9 +18,9 @@ class Datasets:
                                      """)
 
         datasets = {        # list of our datasets
-            "Survey about mental health": "survey1.csv",
-            "Dataset about GDP per capita for 4 states for time period 1997 - 2022": "USA_GDP_dataset_updated.csv",
-            "Dataset about movies throughout the years and their ratings": "tmdb_5000_movies_rfw.csv"
+            "life expectancy": "life_expectancy.csv",
+            "ecology": "ngram_ecology_environment.csv",
+            "releases": "releases_2024_detailed.csv"
         }
 
        # variable for name of dataset

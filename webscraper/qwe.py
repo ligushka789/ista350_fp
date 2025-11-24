@@ -72,34 +72,59 @@ def parse_weekday(date_str):
 df["Weekday"] = df["ReleaseDate"].apply(parse_weekday)
 
 # Сохраняем в CSV (теперь с колонкой Weekday)
-df.to_csv("releases_2024_detailed.csv", index=False, encoding="utf-8")
+df.to_csv("csv/releases_2024_detailed.csv", index=False, encoding="utf-8")
 
-print("Saved with Weekday:", df["Weekday"].value_counts())
+print("csv/Saved with Weekday:", df["Weekday"].value_counts())
 
 
 ######################################################
 
-
-
 import pandas as pd
+import re
 
-# путь к локальному HTML-файлу
-file_path = "ohimsry/List of countries by life expectancy - Wikipedia.html"
+# -------------------------------
+# PART 1 — Life Expectancy
+# -------------------------------
 
-# читаем ВСЕ таблицы из файла
-tables = pd.read_html(file_path)
+life_html = "ohimsry/List of countries by life expectancy - Wikipedia.html"
+tables = pd.read_html(life_html)
+life_df = max(tables, key=lambda t: t.shape[0])
 
-print("Найдено таблиц:", len(tables))
+# normalize columns
+life_df.columns = life_df.columns.map(str).str.strip()
 
-# основная таблица — всегда самая большая (200+ строк)
-main_df = max(tables, key=lambda t: t.shape[0])
+# rename country column
+for col in life_df.columns:
+    if "Country" in col:
+        life_df = life_df.rename(columns={col: "Country"})
+        break
 
-print("Размер основной таблицы:", main_df.shape)
+# -------------------------------
+# PART 2 — Healthcare Index
+# -------------------------------
 
-# теперь сохраняем как CSV
-main_df.to_csv("life_expectancy.csv", index=False, encoding="utf-8")
+hc_html = "ohimsry/Health Care Index by Country 2025 Mid-Year.html"
 
-print("Saved: life_expectancy.csv")
+with open(hc_html, "r", encoding="utf-8") as f:
+    text = f.read()
+
+pattern = r"addRows\(\[(.*?)\]\);"
+match = re.search(pattern, text, re.S)
+
+rows_raw = match.group(1)
+rows = re.findall(r"\['(.+?)',\s*([0-9]+\.[0-9]+)\]", rows_raw)
+
+health_df = pd.DataFrame(rows, columns=["Country", "Healthcare_Index"])
+health_df["Healthcare_Index"] = health_df["Healthcare_Index"].astype(float)
+
+# -------------------------------
+# PART 3 — Merge
+# -------------------------------
+
+merged = pd.merge(life_df, health_df, on="Country", how="inner")
+merged.to_csv("csv/life_expectancy.csv", index=False)
+
+print("Saved: csv/life_expectancy.csv")
 
 
 
@@ -159,5 +184,5 @@ for entry in response:
 
 df = pd.DataFrame(data)
 
-df.to_csv("ngram_ecology_environment.csv", index=False)
-print("Saved: ngram_ecology_environment.csv")
+df.to_csv("csv/ngram_ecology_environment.csv", index=False)
+print("Saved: csv/ngram_ecology_environment.csv")
