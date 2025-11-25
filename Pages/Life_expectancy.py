@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import requests
 from streamlit_lottie import st_lottie
+import streamlit as st
 
 # Made by ROMAN AND PAVEL
 class Life_expectancy:
