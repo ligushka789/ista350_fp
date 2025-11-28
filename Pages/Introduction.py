@@ -14,89 +14,94 @@ class Introduction:
                 return None
             return r.json()
 
-        # create lottie_anim1 and give it json url
-        lottie_anim1 = load_lottieurl("https://lottie.host/ef0d69e7-85c3-41d5-9def-d76e9d129876/f6hH1U5edi.json")
-
-        # Create two columns
-        left_column, right_column = st.columns([5, 3])
-
-        # left column for intro
-        with left_column:
-            st.title("Introduction to the Project")
-            st.write("---")
-            st.write(
-                """
-                This project is aimed at expanding our understanding in dataframe analysis.
-                For this module, our group of three have created different visualizations through the use of
-                libraries that have been explored during ISTA 131 course, such as:
-
-                - Pandas
-                - Matplotlib
-                - Numpy
-
-                As well as auxiliary required libraries:
-
-                - Streamlit
-                """
-            )
-            st.write("---")
-            st.subheader("Used Environment")
-            st.write(
-                """
-                In order to offer the easier perception of our visualizations, we've
-                decided to use the Streamlit framework, which allowed us to organize
-                our work through the use of several pages, one for every member of
-                our team.
-                """
-            )
-            st.write("---")
-            st.subheader("Repository Information")
-            st.write(
-                """
-                If you wish to review the structure of the content as well as
-                check the sequence of our Git actions, you can visit our GitHub
-                repository at:
-                """
-            )
-            st.write("[GitHub link >](https://github.com/ligushka789/ista131_Fp)")
-
-        # right column for video player and animation
-        with right_column:
-            st.subheader("Choose Presentation to Watch:")
-            video_gribanov = "https://youtu.be/Bel9mRRAPGs"
-            video_babayev = "https://youtu.be/eHVcVcBw0aE"
-            video_yeremenko = "https://youtu.be/7FJayrjoWrA"
-            video_in_details = "https://youtu.be/_HRJL-q603A"
-
-            # buttons for presentations
-
-            if st.button("Gribanov"):
-                st.video(video_gribanov)
-
-            if st.button("Babayev"):
-                st.video(video_babayev)
-
-            if st.button("Yeremenko"):
-                st.video(video_yeremenko)
-
-            if st.button("In details"):
-                st.video(video_in_details)
-
-            #add lottie_anim1
-            if lottie_anim1:
-                st_lottie(lottie_anim1, height=300, key="coding")
-
-        # styles part
-        st.markdown(
-            """
-            <style>
-            h1 {
-                color: #4CAF50;
-                font-size: 30px;
-                text-align: center;
-                font-family: Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif;
-            }
-            </style>
-            """,
-            unsafe_allow_html=True,
+        # Load lottie animation
+        lottie_anim1 = load_lottieurl(
+            "https://lottie.host/5c61b851-415c-4b94-bf48-782f7b4ef514/JzXkesEiLo.json"
         )
+
+        # CENTER CONTAINER (only title)
+        st.markdown("""
+        <div style="max-width: 900px; margin: auto;">
+        """, unsafe_allow_html=True)
+
+        # Title centered
+        st.markdown("<h1 style='text-align:center;'>Introduction to the Project</h1>", unsafe_allow_html=True)
+        st.write("---")
+
+        # Content LEFT aligned
+        st.markdown("<div style='text-align:left;'>", unsafe_allow_html=True)
+
+        st.write("""
+        This project is aimed at expanding our understanding in webscraping and visualization.
+        For this module, our group of two have created different visualizations through the use of
+        libraries that have been explored during ISTA 350 course, such as:
+
+        - Pandas
+        - Matplotlib
+        - Beautiful Soup
+        - Webscraping technologies
+
+        As well as auxiliary required libraries:
+
+        - Streamlit (as a main framework to host our project)
+        """)
+
+        st.write("---")
+        st.subheader("Used Environment")
+        st.write("""
+        In order to offer the easier perception of our visualizations, we've
+        decided to use the Streamlit framework, which allowed us to organize
+        our work through the use of several pages.
+        """)
+
+        st.write("---")
+        st.subheader("Repository Information")
+        st.write("""
+        If you wish to review the structure of the content as well as
+        check the sequence of our Git actions, you can visit our GitHub
+        repository at:
+        """)
+
+        st.markdown("[GitHub link >](https://github.com/ligushka789/ista350_fp)")
+
+        # Animation remains centered
+        if lottie_anim1:
+            st.markdown("<div style='text-align:center; margin-top:20px;'>", unsafe_allow_html=True)
+            st_lottie(lottie_anim1, height=280, key="coding")
+            st.markdown("</div>", unsafe_allow_html=True)
+
+        # CLOSE LEFT ALIGN & MAIN CONTAINER
+        st.markdown("</div></div>", unsafe_allow_html=True)
+
+        # STYLE
+        st.markdown("""
+        <style>
+        h1 {
+            font-family: Tahoma, Arial, sans-serif;
+            font-size: 30px;
+            text-align: center;
+            color: #fdffff;
+        }
+
+        h2, h3 {
+            font-family: Tahoma;
+            color: #fdffff;
+        }
+
+        p, li {
+            color: #fdffff;
+            font-family: Tahoma;
+        }
+
+        a {
+            color: #00ccff;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+        </style>
+        """, unsafe_allow_html=True)

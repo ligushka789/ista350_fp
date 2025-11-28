@@ -76,6 +76,48 @@ class Life_expectancy:
 
                 st.pyplot(fig)
 
+                st.subheader("Scatter: Healthcare vs Life Expectancy")
+
+                # показываем названия колонок (временно чтобы ты видел структуру)
+                st.caption(f"Detected columns: {list(df.columns)}")
+
+                # автоматически ищем нужные поля
+                life_col = "All" if "All" in df.columns else None
+                health_col = "Healthcare_Index" if "Healthcare_Index" in df.columns else None
+
+                if life_col and health_col:
+                    x = pd.to_numeric(df[health_col], errors="coerce")
+                    y = pd.to_numeric(df[life_col], errors="coerce")
+
+                    mask = x.notna() & y.notna()
+                    x, y = x[mask], y[mask]
+
+                    if len(x) > 0:
+                        fig_scatter, ax_scatter = plt.subplots(figsize=(10, 6))
+
+                        ax_scatter.scatter(x, y)
+
+                        ax_scatter.set_xlabel("Healthcare Index")
+                        ax_scatter.set_ylabel("Life Expectancy (years)")
+                        ax_scatter.set_title("Healthcare vs Life Expectancy")
+
+                        ax_scatter.grid(alpha=0.3)
+
+                        st.pyplot(fig_scatter)
+
+                        st.success("""
+                        Each dot represents a country. The graph shows how life expectancy is related
+                        to healthcare quality.
+
+                        As healthcare systems improve, people tend to live longer. This relationship
+                        highlights how medical infrastructure directly affects population health outcomes.
+                        """)
+
+                    else:
+                        st.error("No valid numeric data to plot.")
+                else:
+                    st.error("Dataset must contain 'Healthcare_Index' and 'All' columns.")
+
         # Optional Lottie animation
         st_lottie(lottie_anim1, height=200, key="lottie1")
 

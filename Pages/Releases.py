@@ -80,6 +80,36 @@ class Releases:
         else:
             st.warning("Friday releases do NOT appear to be more successful.")
 
+        st.subheader("Scatter: Critic Score vs User Score")
+
+        if "CriticScore" in df.columns and "UserScore" in df.columns:
+            if st.button("Show Critic vs User Score Scatter Plot"):
+                fig_scatter, ax_scatter = plt.subplots(figsize=(10, 6))
+
+                ax_scatter.scatter(
+                    df["CriticScore"],
+                    df["UserScore"]
+                )
+
+                ax_scatter.set_xlabel("Critic Score")
+                ax_scatter.set_ylabel("User Score")
+                ax_scatter.set_title("Album Scores: Critics vs Users")
+
+                ax_scatter.grid(alpha=0.3)
+
+                st.pyplot(fig_scatter)
+                st.warning("""
+                This scatter plot compares how critics and listeners rate the same music releases.
+
+                When points follow a diagonal trend, it means reviewers and audiences usually agree.
+                When spread apart, it shows a difference between professional evaluation and
+                public opinion.
+                """)
+
+        else:
+            st.error("Dataset must contain 'CriticScore' and 'UserScore' columns for the scatter plot.")
+
+
 # Run
 if __name__ == '__main__':
     Releases().app()

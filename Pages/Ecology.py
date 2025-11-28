@@ -2,6 +2,16 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import streamlit as st
 
+st.markdown("""
+<style>
+    /* Info box text */
+    .stAlert[data-testid="stAlert"] p {
+        color: white !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+
 # Made by Pavel Yeremenko
 class Ecology:
     def __init__(self):
@@ -28,6 +38,30 @@ class Ecology:
 
         st.subheader("Dataset Preview")
         st.dataframe(df, height=400)
+
+        st.subheader("Scatter: Ecology vs Environment (Scaled)")
+
+        if st.button("Show Ecology vs Environment Scatter Plot"):
+            fig_scatter, ax_scatter = plt.subplots(figsize=(10, 6))
+
+            ax_scatter.scatter(
+                df["environment"],
+                df["ecology"]
+            )
+            ax_scatter.set_xlabel("Environment (scaled mentions)", fontsize=12)
+            ax_scatter.set_ylabel("Ecology (scaled mentions)", fontsize=12)
+            ax_scatter.set_title("Ecology vs Environment — Scatter View", fontsize=16)
+            ax_scatter.grid(alpha=0.3)
+
+            st.pyplot(fig_scatter)
+            st.info("""
+                        This scatter plot shows the relationship between how often people discuss the
+                        environment and how often they talk about ecology.
+
+                        Each point is a year. When both values grow together, it indicates that public
+                        interest in environmental topics is evolving in depth — from general concern
+                        toward scientific understanding.
+                        """)
 
         # Clean dataframe
         required_cols = {"year", "ecology", "environment"}
