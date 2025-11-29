@@ -1,13 +1,12 @@
 from PIL import Image
 import streamlit as st
-from Pages import Datasets, Introduction, Life_expectancy, Ecology, Releases
-
-# --- базовые настройки ---
 st.set_page_config(
     page_title="ISTA350final",
-    page_icon='img/logo-browser.svg',
+    page_icon="img/logo-browser.svg",
     layout="wide"
 )
+from Pages import Datasets, Introduction, Life_expectancy, Ecology, Releases
+
 
 image = Image.open('img/logo-browser.png')
 st.markdown("""
